@@ -1,33 +1,21 @@
+const c = require("./individual_commands/bulkDelete");
+const ca = require("./individual_commands/clearAll");
+const getId = require("./individual_commands/getId");
+const add = require("./individual_commands/addUserToSecret");
+const { secret } = require("./individual_commands/newSecret");
 const util = require("./commandUtil");
-const logger = require("./logger");
 
 const commands = {
-  c: (msg, arrMsg) => {
-    let deleteSize = 100;
-    const channel = msg.channel;
-    if (util.checkChannel(msg) || util.checkPermissions(msg)) {
-      if (arrMsg.length !== 0) deleteSize = arrMsg[0];
-      channel
-        .bulkDelete(deleteSize)
-        .then(() => {
-          channel.send(
-            `Deletion sent out by ${msg.author.username}#${msg.author.discriminator} complete.`
-          );
-        })
-        .catch((err) => {
-          logger.err(logger.INVALID_OPTION, msg, err.message);
-        });
-    } else logger.err(logger.NO_POWER, msg);
-  },
-  ca: (msg) => {
-    if (util.checkChannel(msg) || util.checkPermissions(msg)) {
-      msg.channel.clone().then(() => {
-        msg.channel.delete("Reset logs").catch((error) => console.log(error));
-      });
+  test: (msg, arrMsg) => {
+    var lines = process.stdout.getWindowSize()[1];
+    for (var i = 0; i < lines; i++) {
+      console.log("\r\n");
     }
   },
-  test: (msg, argMsg) => {
-    msg.channel.clone().then((response) => console.log(response));
-  },
+  c,
+  ca,
+  secret,
+  getId,
+  add,
 };
 module.exports = commands;

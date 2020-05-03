@@ -8,7 +8,13 @@ allCommands[HELP] = (msg) => {
   msg.channel.send("The documentation for using this bot: INSERT LINK HERE");
 };
 allCommands[DEFAULT] = (msg) => {
-  logger.err(logger.INVALID_COMMAND, msg, `Refer to ${PREFIX + HELP}`);
+  logger.err(
+    logger.INVALID_COMMAND,
+    msg,
+    `Refer to ${
+      PREFIX + HELP
+    }. Make sure the command is spelled correctly, CAPS matter.`
+  );
 };
 
 const runCommand = (msg) => {
