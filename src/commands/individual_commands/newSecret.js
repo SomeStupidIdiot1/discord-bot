@@ -1,17 +1,27 @@
-const util = require("../commandUtil");
+require("dotenv").config();
 const randomNames = require("../names");
-const SECRET_VOICE_CATEGORY_NAME = "Secret voice channels";
-const SECRET_TEXT_CATEGORY_NAME = "Secret text channels";
+const ADMINISTRATOR = require("discord.js").Permissions.FLAGS.ADMINISTRATOR;
+const AES = require("crypto-js/aes");
+const {
+  SECRET_VOICE_CATEGORY_NAME,
+  SECRET_TEXT_CATEGORY_NAME,
+  SECRET_PREFIX,
+} = require("../constants");
+const util = require("../commandUtil");
+
 const secret = (msg, arrMsg) => {
+  if (!util.checkPermissions(msg, ADMINISTRATOR)) return;
+
   // Name of secret channels
   let secretName;
   if (arrMsg.length !== 0) secretName = arrMsg[0];
   else {
-    let i = 0;
+    let random = "";
     do {
-      secretName = randomNames[Math.floor(Math.random() * randomNames.length)];
-      i++;
-    } while (util.getAllRoles(msg, true).includes(secretName) && i < 20);
+      secretName =
+        randomNames[Math.floor(Math.random() * randomNames.length)] + random;
+      random = Math.floor(Math.random() * 1000000);
+    } while (util.getAllRoles(msg, true).includes(secretName));
   }
   // Permission of new channels
   const permissionOverwrites = (id) => [
@@ -27,7 +37,7 @@ const secret = (msg, arrMsg) => {
   // Making of the channels
   const createSecretVoice = (parent, id) => {
     util
-      .createChannel(msg, secretName, {
+      .createChannel(msg, SECRET_PREFIX + secretName, {
         type: "voice",
         reason: `secret type ${secretName} voice channel`,
         permissionOverwrites: permissionOverwrites(id),
@@ -39,14 +49,13 @@ const secret = (msg, arrMsg) => {
   };
   const createSecretText = (parent, id) => {
     util
-      .createChannel(msg, secretName, {
+      .createChannel(msg, SECRET_PREFIX + secretName, {
         type: "text",
         reason: `secret type ${secretName} text channel`,
         permissionOverwrites: permissionOverwrites(id),
       })
       .then((channel) => {
         channel.setParent(parent);
-        channel.send(`This category's id is \`${parent.id}\`.`);
       })
       .catch(console.error);
   };
@@ -54,7 +63,12 @@ const secret = (msg, arrMsg) => {
   util
     .createRole(
       msg,
-      { name: `secret ${Math.random()}`, color: "RANDOM" },
+      {
+        name: AES.encrypt(
+          secretName.replace(/ /g, "-"),
+          process.env.ENCRYPT_PASS
+        ).toString(),
+      },
       "Making a new secret type."
     )
     .then(({ id }) => {
@@ -86,8 +100,4 @@ const secret = (msg, arrMsg) => {
     .catch(console.error);
 };
 
-module.exports = {
-  SECRET_VOICE_CATEGORY_NAME,
-  SECRET_TEXT_CATEGORY_NAME,
-  secret,
-};
+module.exports = secret;

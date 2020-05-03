@@ -1,8 +1,8 @@
 const c = require("./individual_commands/bulkDelete");
 const ca = require("./individual_commands/clearAll");
-const getId = require("./individual_commands/getId");
+const id = require("./individual_commands/getId");
 const add = require("./individual_commands/addUserToSecret");
-const { secret } = require("./individual_commands/newSecret");
+const secret = require("./individual_commands/newSecret");
 const util = require("./commandUtil");
 
 const commands = {
@@ -15,7 +15,7 @@ const commands = {
   c,
   ca,
   secret,
-  getId,
+  id,
   add,
 };
 module.exports = commands;
