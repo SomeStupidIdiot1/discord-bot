@@ -3,12 +3,19 @@ const util = require("../commandUtil");
 const logger = require("../logger");
 
 module.exports = (msg, arrMsg) => {
-  if (arrMsg.length < 2) return logger.err(logger.INVALID_OPTION, msg);
-  const member = util.getMemberById(msg, arrMsg[0]);
-  const channel = util.getChannelById(msg, arrMsg[1]);
-  if (!channel)
-    return logger.err(logger.INVALID_OPTION, msg, "Bad channel id.");
-  if (!member) return logger.err(logger.INVALID_OPTION, msg, "Bad user id.");
+  if (!util.checkPermissions(msg, "ADMINISTRATOR"))
+    return logger.err(logger.NO_POWER, msg, "Admins only.");
+  if (arrMsg.length === 0) return logger.err(logger.INVALID_OPTION, msg);
+  let members = util.getMemberByName(msg, arrMsg[0], arrMsg[1]);
+  const channel = msg.channel;
+  if (members.length === 0)
+    return logger.err(logger.INVALID_OPTION, msg, "Cannot find this user.");
+  if (members.length > 1)
+    return logger.err(
+      logger.INVALID_OPTION,
+      msg,
+      "More than one user found. Specify user tag id to be more clear."
+    );
   const roles = util
     .getAllRoles(msg)
     .filter((role) => {
@@ -32,5 +39,5 @@ module.exports = (msg, arrMsg) => {
       msg,
       "No roles are designated so that this channel can be seen."
     );
-  member.roles.add(roles[0]);
+  members[0].roles.add(roles[0]);
 };

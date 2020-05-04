@@ -37,6 +37,12 @@ const getMemberById = (msg, id) => {
   if (id.startsWith("<")) id = id.slice(id.search(/\d/), id.length - 1);
   return msg.guild.members.cache.find((member) => member.id === id);
 };
+const getMemberByName = (msg, name, discriminator = null) => {
+  const possible = msg.guild.members.cache
+    .filter((member) => member.displayName.includes(name))
+    .map((member) => member);
+  return possible;
+};
 module.exports = {
   checkChannel,
   checkPermissions,
@@ -47,4 +53,5 @@ module.exports = {
   getChannelByName,
   getChannelById,
   getMemberById,
+  getMemberByName,
 };

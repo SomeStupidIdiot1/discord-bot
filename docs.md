@@ -10,4 +10,6 @@
 
 //id Gets channel id
 
-//add (@mention_username_here) (channel_id_here) If a role is designated to be able to see the secret channels, then using this command will give the the mentioned user the ability to see those channels. DO NOT create your own role if you have used //secret already. A role is automatically created by the bot.
+//add (display name of user) [user id tag] If a role is designated to be able to see the secret channels, then using this command will give the the mentioned user the ability to see those channels. DO NOT create your own role if you have used //secret already. A role is automatically created by the bot.
+
+//delAll Deletes all channel

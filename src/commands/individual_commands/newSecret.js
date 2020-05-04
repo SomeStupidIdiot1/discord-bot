@@ -1,6 +1,7 @@
 require("dotenv").config();
 const randomNames = require("../names");
-const ADMINISTRATOR = require("discord.js").Permissions.FLAGS.ADMINISTRATOR;
+const logger = require("../logger");
+
 const AES = require("crypto-js/aes");
 const {
   SECRET_VOICE_CATEGORY_NAME,
@@ -10,7 +11,8 @@ const {
 const util = require("../commandUtil");
 
 const secret = (msg, arrMsg) => {
-  if (!util.checkPermissions(msg, ADMINISTRATOR)) return;
+  if (!util.checkPermissions(msg, "ADMINISTRATOR"))
+    return logger.err(logger.NO_POWER, msg, "Admins only.");
 
   // Name of secret channels
   let secretName;
