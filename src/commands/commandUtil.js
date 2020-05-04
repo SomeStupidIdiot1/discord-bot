@@ -38,10 +38,14 @@ const getMemberById = (msg, id) => {
   return msg.guild.members.cache.find((member) => member.id === id);
 };
 const getMemberByName = (msg, name, discriminator = null) => {
-  const possible = msg.guild.members.cache
-    .filter((member) => member.displayName.includes(name))
-    .map((member) => member);
-  return possible;
+  let possible = msg.guild.members.cache.filter((member) =>
+    member.displayName.includes(name)
+  );
+  if (discriminator)
+    possible = possible.filter(
+      (member) => member.user.discriminator == discriminator
+    );
+  return possible.map((member) => member);
 };
 module.exports = {
   checkChannel,
