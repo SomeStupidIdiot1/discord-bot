@@ -26,7 +26,11 @@ Makes a secret voice and text channel that no one can see except people with spe
 
 ### //add (display name of user) [user id tag]
 
-Adds a user to a secret channel. This is done by using the role created when `//secret` is used. The user id tag may be needed if the name is ambigiuous. Only `ADMINISTRATORS` can use this command.
+Adds a user to the current secret channel. This is done by using the role created when `//secret` is used. The user id tag may be needed if the name is ambigiuous. Only `ADMINISTRATORS` can use this command.
+
+### //remove (display name of user) [user id tag]
+
+Removes the user from the current secret channel. The user id tag may be needed if the name is ambigiuous. Only `ADMINISTRATORS` can use this command.
 
 ## Others
 
