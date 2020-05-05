@@ -17,7 +17,7 @@ module.exports = (msg, arrMsg) => {
       "More than one user found. Specify user tag id to be more clear."
     );
 
-  const roles = msg.member.roles.cache
+  const roles = members[0].roles.cache
     .filter((role) => {
       const permissions = role.permissionsIn(channel);
       return (
@@ -27,14 +27,14 @@ module.exports = (msg, arrMsg) => {
     })
     .map((role) => role);
   if (roles.length > 1)
-    logger.err(
+    return logger.err(
       logger.ROLE_ERROR,
       msg,
       "There are more than one roles that can see this channel: " +
         roles.map((role) => role.name).toString()
     );
   if (roles.length === 0)
-    logger.err(
+    return logger.err(
       logger.ROLE_ERROR,
       msg,
       "No roles are designated so that this channel can be seen."

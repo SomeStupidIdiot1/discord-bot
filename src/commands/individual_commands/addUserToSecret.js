@@ -27,14 +27,14 @@ module.exports = (msg, arrMsg) => {
     })
     .map((role) => role);
   if (roles.length > 1)
-    logger.err(
+    return logger.err(
       logger.ROLE_ERROR,
       msg,
       "There are more than one roles that can see this channel: " +
         roles.map((role) => role.name).toString()
     );
   if (roles.length === 0)
-    logger.err(
+    return logger.err(
       logger.ROLE_ERROR,
       msg,
       "No roles are designated so that this channel can be seen."
