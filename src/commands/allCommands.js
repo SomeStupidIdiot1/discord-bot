@@ -5,7 +5,9 @@ const DEFAULT = "default_invalid_command_error";
 const allCommands = require("./customCommands");
 
 allCommands[HELP] = (msg) => {
-  msg.channel.send("The documentation for using this bot: INSERT LINK HERE");
+  msg.channel.send(
+    "The documentation for using this bot: https://github.com/SomeStupidIdiot1/discord-bot/blob/master/docs.md"
+  );
 };
 allCommands[DEFAULT] = (msg) => {
   logger.err(

@@ -1,15 +1,43 @@
 # Docs
 
-//help for docs link
+For using the commands. Prefix for any command is `//`. Commands are case sensitive.
 
-//c [number here] for clearing chat (default is 100). People with manage_messages (either channel permission or server wide permission) and people in channels that start with the name "secret" can use this command.
+## Table of contents
 
-//ca Clones and deletes a channel. By doing so, all messages are removed with permissions and roles being saved.
+1. [Moderating chat](##Moderating-chat)
+2. [Secret channels](#Secret-channels)
+3. [Others](#Others)
 
-//secret Makes secret channels for both voice and text listed under categories (which the name cannot be changed for this to work), only people with specific a specific role can access these channels. ONLY ADMINS CAN USE THIS.
+## Moderating chat
 
-//id Gets channel id
+### //c [number of lines to delete]
 
-//add (display name of user) [user id tag] If a role is designated to be able to see the secret channels, then using this command will give the the mentioned user the ability to see those channels. DO NOT create your own role if you have used //secret already. A role is automatically created by the bot.
+By default, 100 lines are cleared. The maximum number of lines is 100. People with the permission `MANAGE_MESSAGES` can use this command.
 
-//delAll Deletes all channel
+### //ca
+
+All messages of the current channel are deleted. This may shift the position of the channel within the category. People with the permission `MANAGE_MESSAGES` can use this command.
+
+## Secret channels
+
+### //secret
+
+Makes a secret voice and text channel that no one can see except people with specific roles. Only `ADMINISTRATORS` can use this command.
+
+### //add (display name of user) [user id tag]
+
+Adds a user to a secret channel. This is done by using the role created when `//secret` is used. The user id tag may be needed if the name is ambigiuous. Only `ADMINISTRATORS` can use this command.
+
+## Others
+
+### //help
+
+To get the documentation link.
+
+### //id
+
+Gets channel id
+
+### //delAll
+
+Deletes all channels. Only `ADMINISTRATORS` can use this command.
