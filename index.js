@@ -7,7 +7,7 @@ const { PREFIX, HELP } = require("./src/commands/allCommands");
 bot.on("ready", () => {
   console.log(`Bot is running as ${bot.user.tag}`);
   bot.user.setPresence({
-    activity: { name: `a Serf. Use ${PREFIX + HELP}` },
+    activity: { name: `a bot. Use ${PREFIX + HELP}` },
   });
 });
 bot.on("message", (message) => app(message));
