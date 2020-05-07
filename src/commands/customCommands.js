@@ -5,6 +5,7 @@ const add = require("./individual_commands/addUserToSecret");
 const secret = require("./individual_commands/newSecret");
 const delAll = require("./individual_commands/deleteChannel");
 const remove = require("./individual_commands/removeUserFromSecret");
+const flip = require("./individual_commands/coinFlip");
 const util = require("./commandUtil");
 
 const commands = {
@@ -13,7 +14,6 @@ const commands = {
     for (var i = 0; i < lines; i++) {
       console.log("\r\n");
     }
-
   },
   c,
   ca,
@@ -22,5 +22,6 @@ const commands = {
   add,
   remove,
   delAll,
+  flip,
 };
 module.exports = commands;
