@@ -3,7 +3,7 @@ const util = require("../commandUtil");
 const logger = require("../logger");
 
 module.exports = (msg, arrMsg) => {
-  if (!util.checkPermissions(msg, "ADMINISTRATOR"))
+  if (!msg.member.hasPermission("ADMINISTRATOR"))
     return logger.err(logger.NO_POWER, msg, "Admins only.");
   if (arrMsg.length === 0) return logger.err(logger.INVALID_OPTION, msg);
   let members = util.getMemberByName(msg, arrMsg[0], arrMsg[1]);

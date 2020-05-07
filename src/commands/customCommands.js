@@ -13,6 +13,7 @@ const commands = {
     for (var i = 0; i < lines; i++) {
       console.log("\r\n");
     }
+
   },
   c,
   ca,

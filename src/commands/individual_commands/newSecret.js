@@ -11,7 +11,7 @@ const {
 const util = require("../commandUtil");
 
 const secret = (msg, arrMsg) => {
-  if (!util.checkPermissions(msg, "ADMINISTRATOR"))
+  if (!msg.member.hasPermission("ADMINISTRATOR"))
     return logger.err(logger.NO_POWER, msg, "Admins only.");
 
   // Name of secret channels
@@ -38,22 +38,16 @@ const secret = (msg, arrMsg) => {
   ];
   // Making of the channels
   const createSecretVoice = (parent, id) => {
-    util
-      .createChannel(msg, SECRET_PREFIX + secretName, {
-        type: "voice",
-        reason: `secret type ${secretName} voice channel`,
-        permissionOverwrites: permissionOverwrites(id),
-      })
-      .then((channel) => {
-        channel.setParent(parent);
-      })
-      .catch(console.error);
+    createSecret(parent, id, "voice");
   };
   const createSecretText = (parent, id) => {
-    util
-      .createChannel(msg, SECRET_PREFIX + secretName, {
-        type: "text",
-        reason: `secret type ${secretName} text channel`,
+    createSecret(parent, id, "text");
+  };
+  const createSecret = (parent, id, type) => {
+    msg.guild.channels
+      .create(SECRET_PREFIX + secretName, {
+        type: type,
+        reason: `secret type ${secretName} ${type} channel`,
         permissionOverwrites: permissionOverwrites(id),
       })
       .then((channel) => {
@@ -62,23 +56,22 @@ const secret = (msg, arrMsg) => {
       .catch(console.error);
   };
   // Make role, channels, categories
-  util
-    .createRole(
-      msg,
-      {
+  msg.guild.roles
+    .create({
+      data: {
         name: AES.encrypt(
           secretName.replace(/ /g, "-"),
           process.env.ENCRYPT_PASS
         ).toString(),
       },
-      "Making a new secret type."
-    )
+      reason: "Making a new secret type.",
+    })
     .then(({ id }) => {
       const voiceCat = util.getChannelByName(msg, SECRET_VOICE_CATEGORY_NAME);
       const textCat = util.getChannelByName(msg, SECRET_TEXT_CATEGORY_NAME);
       if (textCat.length === 0)
-        util
-          .createChannel(msg, SECRET_TEXT_CATEGORY_NAME, {
+        msg.guild.channels
+          .create(SECRET_TEXT_CATEGORY_NAME, {
             type: "category",
             reason: "Secret type bundle for text",
             permissionOverwrites: permissionOverwrites(id),
@@ -88,8 +81,8 @@ const secret = (msg, arrMsg) => {
           });
       else createSecretText(textCat[0], id);
       if (voiceCat.length === 0)
-        util
-          .createChannel(msg, SECRET_VOICE_CATEGORY_NAME, {
+        msg.guild.channels
+          .create(SECRET_VOICE_CATEGORY_NAME, {
             type: "category",
             reason: "Secret type bundle for voice",
             permissionOverwrites: permissionOverwrites(id),

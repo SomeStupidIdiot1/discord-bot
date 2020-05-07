@@ -1,11 +1,4 @@
-const MANAGE_MESSAGES = require("discord.js").Permissions.FLAGS.MANAGE_MESSAGES;
-const { SECRET_PREFIX } = require("./constants");
-const checkChannel = (msg, channelNameStarsWith = SECRET_PREFIX) => {
-  return msg.channel.name.startsWith(channelNameStarsWith);
-};
-const checkPermissions = (msg, permission = MANAGE_MESSAGES) => {
-  return msg.member.hasPermission(permission);
-};
+
 const getAllRoles = (msg, onlyNames = false) => {
   const allRoles = msg.guild.roles.cache;
   if (!onlyNames) return allRoles;
@@ -15,15 +8,6 @@ const getRoleByName = (msg, name) => {
   return msg.guild.roles.cache
     .filter((role) => role.name === name)
     .map((item) => item);
-};
-const createRole = (msg, data, reason = "Default reason") => {
-  const options = {};
-  options.data = data;
-  if (reason) options.reason = reason;
-  return msg.guild.roles.create(options);
-};
-const createChannel = (msg, name, options) => {
-  return msg.guild.channels.create(name, options);
 };
 const getChannelByName = (msg, name, type = "category") => {
   return msg.guild.channels.cache
@@ -48,11 +32,7 @@ const getMemberByName = (msg, name, discriminator = null) => {
   return possible.map((member) => member);
 };
 module.exports = {
-  checkChannel,
-  checkPermissions,
   getAllRoles,
-  createRole,
-  createChannel,
   getRoleByName,
   getChannelByName,
   getChannelById,

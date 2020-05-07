@@ -1,9 +1,11 @@
-const util = require("../commandUtil");
+const { SECRET_PREFIX } = require("../constants");
 
-module.exports = (msg) => {
-  if (util.checkChannel(msg) || util.checkPermissions(msg)) {
-    msg.channel.clone().then(() => {
-      msg.channel.delete("Reset logs").catch((error) => console.log(error));
-    });
+module.exports = async (msg) => {
+  if (
+    msg.channel.name.startsWith(SECRET_PREFIX) ||
+    msg.member.hasPermission("MANAGE_MESSAGES")
+  ) {
+    await msg.channel.clone();
+    msg.channel.delete("Reset logs").catch((error) => console.log(error));
   }
 };

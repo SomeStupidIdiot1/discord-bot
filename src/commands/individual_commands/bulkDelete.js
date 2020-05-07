@@ -1,10 +1,13 @@
-const util = require("../commandUtil");
 const logger = require("../logger");
+const { SECRET_PREFIX } = require("../constants");
 
 module.exports = (msg, arrMsg) => {
   let deleteSize = 100;
   const channel = msg.channel;
-  if (util.checkChannel(msg) || util.checkPermissions(msg)) {
+  if (
+    msg.channel.name.startsWith(SECRET_PREFIX) ||
+    msg.member.hasPermission("MANAGE_MESSAGES")
+  ) {
     if (arrMsg.length !== 0) deleteSize = arrMsg[0];
     channel
       .bulkDelete(deleteSize)
@@ -17,4 +20,4 @@ module.exports = (msg, arrMsg) => {
         logger.err(logger.INVALID_OPTION, msg, err.message);
       });
   } else logger.err(logger.NO_POWER, msg);
-}
+};
