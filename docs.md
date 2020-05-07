@@ -45,3 +45,7 @@ Gets channel id
 ### //delAll
 
 Deletes all channels. Only `ADMINISTRATORS` can use this command.
+
+### //flip
+
+Gets heads/tails.
