@@ -1,13 +1,9 @@
-const logger = require("../logger");
-const { SECRET_PREFIX } = require("../constants");
+const logger = require("../../logger");
 
 module.exports = (msg, arrMsg) => {
   let deleteSize = 100;
   const channel = msg.channel;
-  if (
-    msg.channel.name.startsWith(SECRET_PREFIX) ||
-    msg.member.hasPermission("MANAGE_MESSAGES")
-  ) {
+  if (msg.member.hasPermission("MANAGE_MESSAGES")) {
     if (arrMsg.length !== 0) deleteSize = arrMsg[0];
     channel
       .bulkDelete(deleteSize)

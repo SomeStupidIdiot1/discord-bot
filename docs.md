@@ -22,7 +22,7 @@ All messages of the current channel are deleted. This may shift the position of 
 
 ### //secret
 
-Makes a secret voice and text channel that no one can see except people with specific roles. Only `ADMINISTRATORS` can use this command.
+Makes a secret voice and text channel that no one can see except people with specific roles. Members of `SECRET` channels have the permission of `MANAGE_MESSAGES` by default. Only `ADMINISTRATORS` can use this command.
 
 ### //add (display name of user) [user id tag]
 
@@ -31,6 +31,10 @@ Adds a user to the current secret channel. This is done by using the role create
 ### //remove (display name of user) [user id tag]
 
 Removes the user from the current secret channel. The user id tag may be needed if the name is ambigiuous. Only `ADMINISTRATORS` can use this command.
+
+### //clearRoleCache
+
+Clears unused roles created by past `//secret` calls. Only `MANAGE_CHANNELS` can use this command.
 
 ## Others
 

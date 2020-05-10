@@ -1,6 +1,9 @@
-require("dotenv").config();
-const util = require("../commandUtil");
-const logger = require("../logger");
+const util = require("../../commandUtil");
+const logger = require("../../logger");
+const {
+  SECRET_ROLE_PREFIX,
+  SECRET_ROLE_PERMISSIONS,
+} = require("../../constants");
 
 module.exports = (msg, arrMsg) => {
   if (!msg.member.hasPermission("ADMINISTRATOR"))
@@ -21,8 +24,8 @@ module.exports = (msg, arrMsg) => {
     .filter((role) => {
       const permissions = role.permissionsIn(channel);
       return (
-        permissions.has("VIEW_CHANNEL") &&
-        !role.permissions.has("ADMINISTRATOR")
+        permissions.has(SECRET_ROLE_PERMISSIONS) &&
+        role.name.startsWith(SECRET_ROLE_PREFIX)
       );
     })
     .map((role) => role);

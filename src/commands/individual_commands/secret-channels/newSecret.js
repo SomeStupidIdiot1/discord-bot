@@ -1,14 +1,13 @@
-require("dotenv").config();
-const randomNames = require("../names");
-const logger = require("../logger");
-
-const AES = require("crypto-js/aes");
+const randomNames = require("../../names");
+const logger = require("../../logger");
 const {
+  SECRET_ROLE_PERMISSIONS,
   SECRET_VOICE_CATEGORY_NAME,
   SECRET_TEXT_CATEGORY_NAME,
-  SECRET_PREFIX,
-} = require("../constants");
-const util = require("../commandUtil");
+  SECRET_ROLE_PREFIX,
+} = require("../../constants");
+
+const util = require("../../commandUtil");
 
 const secret = (msg, arrMsg) => {
   if (!msg.member.hasPermission("ADMINISTRATOR"))
@@ -33,7 +32,7 @@ const secret = (msg, arrMsg) => {
     },
     {
       id: id,
-      allow: ["VIEW_CHANNEL"],
+      allow: SECRET_ROLE_PERMISSIONS,
     },
   ];
   // Making of the channels
@@ -43,26 +42,23 @@ const secret = (msg, arrMsg) => {
   const createSecretText = (parent, id) => {
     createSecret(parent, id, "text");
   };
-  const createSecret = (parent, id, type) => {
-    msg.guild.channels
-      .create(SECRET_PREFIX + secretName, {
+  const createSecret = async (parent, id, type) => {
+    try {
+      const channel = await msg.guild.channels.create(secretName, {
         type: type,
         reason: `secret type ${secretName} ${type} channel`,
         permissionOverwrites: permissionOverwrites(id),
-      })
-      .then((channel) => {
-        channel.setParent(parent);
-      })
-      .catch(console.error);
+      });
+      channel.setParent(parent);
+    } catch (err) {
+      console.error(err);
+    }
   };
   // Make role, channels, categories
   msg.guild.roles
     .create({
       data: {
-        name: AES.encrypt(
-          secretName.replace(/ /g, "-"),
-          process.env.ENCRYPT_PASS
-        ).toString(),
+        name: SECRET_ROLE_PREFIX + Math.floor(Math.random() * 100000),
       },
       reason: "Making a new secret type.",
     })
