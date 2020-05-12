@@ -70,7 +70,6 @@ const secret = (msg, arrMsg) => {
           .create(SECRET_TEXT_CATEGORY_NAME, {
             type: "category",
             reason: "Secret type bundle for text",
-            permissionOverwrites: permissionOverwrites(id),
           })
           .then((parent) => {
             createSecretText(parent, id);
@@ -81,7 +80,6 @@ const secret = (msg, arrMsg) => {
           .create(SECRET_VOICE_CATEGORY_NAME, {
             type: "category",
             reason: "Secret type bundle for voice",
-            permissionOverwrites: permissionOverwrites(id),
           })
           .then((parent) => {
             createSecretVoice(parent, id);
